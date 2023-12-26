@@ -76,7 +76,7 @@ A(1 + r)^3 + B(1 + r)^2 + C(1 + r)^1 = D
 ### Portfolio Visualizer
 
 - [Example](https://www.portfoliovisualizer.com/backtest-portfolio?s=y&timePeriod=4&startYear=2018&firstMonth=1&endYear=2023&lastMonth=12&calendarAligned=true&includeYTD=true&initialAmount=10000&annualOperation=0&annualAdjustment=0&inflationAdjusted=true&annualPercentage=0.0&frequency=4&rebalanceType=1&absoluteDeviation=5.0&relativeDeviation=25.0&leverageType=0&leverageRatio=0.0&debtAmount=0&debtInterest=0.0&maintenanceMargin=25.0&leveragedBenchmark=false&reinvestDividends=true&showYield=false&showFactors=false&factorModel=3&portfolioNames=false&portfolioName1=Portfolio+1&portfolioName2=Portfolio+2&portfolioName3=Portfolio+3&symbol1=VTTSX&allocation1_1=100&symbol2=VT&allocation2_2=100)
-![Screenshot 2023-12-26 at 12.14.24 PM.png](..%2F..%2FDesktop%2FScreenshot%202023-12-26%20at%2012.14.24%E2%80%AFPM.png)
+![images/portfolio-viewer.png](images/portfolio-viewer.png)
 
 ---
 
