@@ -140,9 +140,12 @@ _putting it all together..._
 
 The relative proportions depend on your risk-tolerance and age, but for 20-somethings, this seems to be something like 60/30/10 or 70/30/0 etc..
 
+![BogleHeadsFundChart](images/BogleheadFunds.svg)
+
 ## Target date fund (TDF)
 
 - A target date fund (for example, [Vanguard's target date 2060 fund](https://investor.vanguard.com/investment-products/mutual-funds/profile/vttsx)) is an easy way to "set and forget." It will automatically invest in US and international stocks, as well as bonds and will adjust the relative proportions as the fund gets closer to retirement. For example, the 2060 TDF is currently ~60% US stocks, ~30% international stocks, and ~10% bonds, but will shift more towards bonds (which are less risky) later on
+
 
 ## Vanguard Funds
 
