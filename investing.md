@@ -6,7 +6,9 @@
   - [Should I invest in [X] index fund? (A simple FAQ thread)](https://www.reddit.com/r/Bogleheads/comments/tg1az5/should_i_invest_in_x_index_fund_a_simple_faq/)
   - [Stay the course](https://www.reddit.com/r/Bogleheads/comments/12byegv/stay_the_course/)
 
-# Jargon
+# Introductory topics
+
+"_just getting started..._"
 
 ## Stocks
 - A stock, also known as an **equity**, is a security that represents the ownership of a fraction of the issuing corporation. Units of stock are called "shares" which entitles the owner to a proportion of the corporation's assets and profits equal to how much stock they own. 
@@ -56,14 +58,39 @@
     - One way to take control of your retirement savings is to roll over your prior retirement plan from a former employer.
     - It is a process that allows you to move funds from your previous employer-sponsored retirement plan, a 401(k), for example, into an IRA. When you roll over your old retirement account into an IRA, you can preserve the tax-deferred status of your retirement assets without paying current taxes or early withdrawal penalties at the time of transfer. 
 
-## Mutual Fund
+## The Backdoor Roth IRA strategy
+
+- A `backdoor Roth` IRA is a strategy rather than an official type of individual retirement account. It is a technique used by high-income earners—who exceed Roth IRA income limits—to convert their traditional IRA to a Roth IRA.
+- You can create a backdoor Roth IRA in one of three ways:
+  - Contribute money to an existing traditional IRA and then roll over the funds to a Roth IRA. Or you can roll over existing traditional IRA money into a Roth—as much as you want at one time, even if it’s more than the annual contribution limit.
+  - Convert your entire traditional IRA to a Roth IRA.
+  - If your company 401(k) plan allows conversions, you can roll your 401(k) account over to a Roth IRA.
+- Tax Implications of a Backdoor Roth IRA
+  - Remember that in an IRA transfer or conversion to a Roth IRA, you still need to pay taxes on any money in your traditional IRA that hasn’t been taxed. 
+  - For example, if you contribute $6,000 to a traditional IRA, claim a deduction for the $6,000 on your tax return, and then convert that money to a Roth IRA, you’ll owe taxes on the $6,000
+  - You’ll also owe taxes on whatever money that IRA contribution earned between the date when it was contributed to the traditional IRA and the date when you converted it to a Roth IRA
+
+## Health Savings Account (HSA)
+
+- An [HSA](https://www.fidelity.com/learning-center/smart-money/what-is-an-hsa) is a tax-advantaged account that can be used to pay for qualified medical expenses, including copays, prescriptions, dental care, contacts and eyeglasses, bandages, X-rays, and a lot more. It’s "tax-advantaged" because your contributions reduce your taxable income, and the money isn't taxed while it’s in the account—even if it earns interest or investment returns. Bonus: As long as you use your HSA funds for qualified medical expenses, you won't owe taxes when you take money out of the account. These 3 reasons are why HSAs are considered "triple" tax advantaged. This means they provide more tax advantages than retirement accounts, such as 401(k)s or individual retirement accounts (IRAs).
+- **To be eligible, you must participate in a High Deductible Health Plan (HDHP)**, have no other insurance coverage other than those specifically allowed, and not be claimed as a dependent on someone else's tax return in order to be eligible for an HSA
+- If you don't need the money in your HSA for immediate medical expenses, you can save and invest it until you do. This sets HSAs apart from another popular account, the health care flexible spending account (FSA). Unlike an HSA, money held in a health care FSA typically must be spent by the end of the plan year in which it's contributed, can't be invested, and can't be carried with you when you leave an employer
+- HSAs are not subject to "use-it-or-lose-it" rules This means you don't forfeit any money you don't use in a given year, and you can carry it forward until you reach a time that you want or need to use the money in your HSA
+- Your HSA is your account, not your employer's Unlike health care FSAs, which your employer technically owns, your HSA belongs to you. So when you leave a job, you keep all of the money you've saved up in your HSA and can transfer into a new HSA or employer-sponsored HSA at your next job
+- Contributing to your HSA early and often and investing those savings can help you better afford medical care later. The contribution limit for 2023 is $3,850 for individual coverage and $7,750 for family coverage.
+- You and your employer may both contribute to your HSA, though the contribution limit remains the same, regardless of how much your employer puts in
+
+
+## Types of investments to buy
+
+### Mutual Fund
 
 - "Mutual funds let you pool your money with other investors to "mutually" buy stocks, bonds, and other investments. They're run by professional money managers who decide which securities to buy (stocks, bonds, etc.) and when to sell them. You get exposure to all the investments in the fund and any income they generate."
 - "Buying mutual funds can be straightforward. Many banks and brokerage firms, including Schwab, have their own line of proprietary mutual funds as well as access to thousands of third-party funds."
 - "You get the benefit of having a professional manager reviewing and researching the fund's portfolio on an ongoing basis."
 - [link](https://www.schwab.com/mutual-funds/understand-mutual-funds)
 
-### Types of mutual funds
+#### Types of mutual funds
 
 - Equity funds
   - These funds invest in U.S. or foreign stocks. Some are index funds, while others are actively managed. Typically, they're defined by the size of the companies they invest in ("small-cap," "mid-cap," or "large-cap") or their investment objective ("growth," "income," etc.).
@@ -86,7 +113,9 @@
 
 ---
 
-# Analysis
+# Investment Analysis
+
+_figuring out the dead simple information investment companies intentially obfuscate_
 
 ## Rate of Return
 
