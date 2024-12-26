@@ -203,6 +203,8 @@ The relative proportions depend on your risk-tolerance and age, but for 20-somet
 
 # Non-Retirement Investing
 
+- [Taxable Accounts 101 from r/BogleHeads](https://www.reddit.com/r/Bogleheads/comments/t8vqbx/taxable_accounts_101/?share_id=KNztLi8nkWdV_nvxTg75q&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1)
+
 ## Taxes
 - Investing in regular brokerage accounts (not a tax-advantaged retirement account) will, as the name suggests, involve more taxes
 - If you sell stocks for a profit, your earnings are known as **capital gains** and are subject to capital gains tax.
