@@ -219,6 +219,9 @@ The relative proportions depend on your risk-tolerance and age, but for 20-somet
 ### Taxes on Dividends
 - For tax purposes, there are two kinds of dividends: **qualified** and **nonqualified**. The tax rate on qualified dividends is 0%, 15% or 20%, depending on your taxable income and filing status. This is usually lower than the rate for nonqualified dividends. The tax rate on nonqualified dividends, sometimes called ordinary dividends, is the same as your regular income tax bracket
 
+### Taxes on Interest (ie from Bonds)
+- If you have something that pays interest (for example, a Bond fund), interest is taxed as ordinary income unless exempt due to issuer
+
 ### Net Investment Income Tax
 - Some high-income investors may also be subject to an additional 3.8% tax called the net investment income tax. The IRS imposes this tax on either your net investment income or the amount by which your modified adjusted gross income exceeds a certain threshold (below), whichever one ends up being less. 
 - The income thresholds for the net investment income tax are $250,000 for those married filing jointly, $125,000 for those married filing separately, and $200,000 for single filers and heads of household
