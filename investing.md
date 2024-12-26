@@ -5,6 +5,7 @@
 - [r/Bogleheads](https://www.reddit.com/r/Bogleheads)
   - [Should I invest in [X] index fund? (A simple FAQ thread)](https://www.reddit.com/r/Bogleheads/comments/tg1az5/should_i_invest_in_x_index_fund_a_simple_faq/)
   - [Stay the course](https://www.reddit.com/r/Bogleheads/comments/12byegv/stay_the_course/)
+- [Personal finance spending flowchart](images/personal-income-spending-flowchart.jpeg)
 
 ---
 
