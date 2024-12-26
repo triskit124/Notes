@@ -5,6 +5,7 @@
 - [r/Bogleheads](https://www.reddit.com/r/Bogleheads)
   - [Should I invest in [X] index fund? (A simple FAQ thread)](https://www.reddit.com/r/Bogleheads/comments/tg1az5/should_i_invest_in_x_index_fund_a_simple_faq/)
   - [Stay the course](https://www.reddit.com/r/Bogleheads/comments/12byegv/stay_the_course/)
+  - [Taxable Accounts 101](https://www.reddit.com/r/Bogleheads/comments/t8vqbx/taxable_accounts_101/?share_id=KNztLi8nkWdV_nvxTg75q&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=1)
 - [Personal finance spending flowchart](images/personal-income-spending-flowchart.jpeg)
 
 ---
