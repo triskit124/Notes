@@ -29,6 +29,12 @@
   - The maturity date is the date on which the bond will mature and the bond issuer will pay the bondholder the face value of the bond.
   - The issue price is the price at which the bond issuer originally sells the bonds. In many cases, bonds are issued at par.
 
+## Capital Gains
+- A **capital gain** refers to the increase in the value of a capital asset that is realized when it is sold. In other words, a capital gain occurs when you sell an asset for more than what you paid to purchase it
+- Almost any type of asset you own is a capital asset. They can include investments such as stock, bonds, or real estate, and items purchased for personal use, such as furniture or a boat
+- The gain may be **short-term** (one year or less) or **long-term** (more than one year) and must be reported on income tax returns
+- **Unrealized gains and losses** reflect an increase or decrease in an investment's value but are not considered taxable
+
 ## Mutual Fund
 
 - "Mutual funds let you pool your money with other investors to "mutually" buy stocks, bonds, and other investments. They're run by professional money managers who decide which securities to buy (stocks, bonds, etc.) and when to sell them. You get exposure to all the investments in the fund and any income they generate."
@@ -54,8 +60,17 @@
   - These funds invest in companies involved in commodity-intensive industries such as energy exploration and mining. While these funds can be a great hedge against inflation, they can also be more volatile than most stock funds.
 
 ## Exchange-Traded Fund (ETF)
-- Very similar to mutual funds, except for differences I don't really care about
-- [link](https://www.schwab.com/etfs/mutual-funds-vs-etfs)
+- ETFs are similar to mutual funds. They represent professionally managed collections (or "baskets") of individual stocks or bonds. Similar to mutual funds, ETFs and are managed by experts. Those experts choose and monitor the stocks or bonds the funds invest in, saving you time and effort.
+
+## Mutual Funds vs ETFs
+- ETFs trade like stocks and are bought and sold on a stock exchange, experiencing price changes throughout the day, while mutual fund purchases are executed once per day, with all investors on the same day receiving the same price.
+- ETFs do not require a minimum initial investment and are purchased as whole shares. You can buy an ETF for the price of just one share, usually referred to as the ETF's "market price." Mutual funds often have higher initial inventment minimums.
+- ETFs are often less expensive than mutual funds because they require less active management
+- You may need to pay a trading commission when you invest in an ETF, but this usually doesn't apply to mutual funds
+- In general, ETFs tend to be more tax efficient than index mutual funds
+  - ETFs can potentially generate fewer capital gains for investors since they may have lower turnover and can use the in-kind creation/redemption process to manage the cost basis of their holdings'
+  - [Link](https://am.jpmorgan.com/us/en/asset-management/adv/insights/etf-insights/tax-efficiency-of-etfs/#:~:text=ETFs%E2%80%94both%20passive%20and%20active%E2%80%94consistently%20distribute%20significantly%20fewer%20capital,mutual%20funds%20for%20many%20investors.)
+  
 
 ---
 
