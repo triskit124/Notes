@@ -10,7 +10,7 @@
 
 # Introductory vocabulary
 
-"_Just getting started..._"
+> Just getting started...
 
 ## Stocks
 - A stock, also known as an **equity**, is a security that represents the ownership of a fraction of the issuing corporation. Units of stock are called "shares" which entitles the owner to a proportion of the corporation's assets and profits equal to how much stock they own. 
@@ -104,9 +104,9 @@
 
 ## Choosing Retirement Investments 
 
-_Putting it all together..._
+> Putting it all together...
 
-### The `3 fund portfolio`
+### The 3 Fund Portfolio
 
 - The folks over on `r/Bogleheads` suggest that a portfolio comprising these 3 main investments is a gold standard:
 
@@ -118,7 +118,7 @@ The relative proportions depend on your risk-tolerance and age, but for 20-somet
 
 ![BogleHeadsFundChart](images/BogleheadFunds.svg)
 
-### Target date fund (TDF)
+### Target Date Fund (TDF)
 
 - A target date fund (for example, [Vanguard's target date 2060 fund](https://investor.vanguard.com/investment-products/mutual-funds/profile/vttsx)) is an easy way to "set and forget." It will automatically invest in US and international stocks, as well as bonds and will adjust the relative proportions as the fund gets closer to retirement. For example, the 2060 TDF is currently ~60% US stocks, ~30% international stocks, and ~10% bonds, but will shift more towards bonds (which are less risky) later on
 
@@ -187,7 +187,7 @@ The relative proportions depend on your risk-tolerance and age, but for 20-somet
 
 # Investment Analysis
 
-_Figuring out the dead simple information investment companies intentially obfuscate_
+> Figuring out the dead simple information investment companies intentially obfuscate
 
 ## Rate of Return
 
