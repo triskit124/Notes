@@ -80,6 +80,7 @@
 
 - Employer-sponsored retirement plan offered by many for-profit companies
 - 401(k) plans and 403(b) plans are **tax-advantaged**, meaning workers can preserve more of their investment growth for retirement rather than losing some to taxes each year.
+- Once the money is in your 401(k), and as long as the money remains in the account, you pay no taxes on investment growth, interest, dividends or earnings
 - Most 401(k) and 403(b) plans are pre-tax accounts, meaning the money contributed is generally withdrawn from employees’ paychecks before taxes. This helps those workers to pay less in taxes that year. The money then grows tax-deferred in the account, and employees don’t pay income taxes on the money until they withdraw it during retirement.
 - Many 401(k) and 403(b) plans also accept Roth contributions. Rather than being made pre-tax, Roth contributions are made after an employee has already paid taxes on their income. Then, all investment growth in the account and distributions from the account are tax-free
 - Both 401(k) and 403(b) plans are subject to contribution limits. First, in both cases, employees can contribute up to $22,500 of their income to their workplace retirement plan in 2023
@@ -198,6 +199,33 @@ The relative proportions depend on your risk-tolerance and age, but for 20-somet
   - For example, if you contribute $6,000 to a traditional IRA, claim a deduction for the $6,000 on your tax return, and then convert that money to a Roth IRA, you’ll owe taxes on the $6,000
   - You’ll also owe taxes on whatever money that IRA contribution earned between the date when it was contributed to the traditional IRA and the date when you converted it to a Roth IRA
  
+---
+
+# Non-Retirement Investing
+
+## Taxes
+- Investing in regular brokerage accounts (not a tax-advantaged retirement account) will, as the name suggests, involve more taxes
+- If you sell stocks for a profit, your earnings are known as **capital gains** and are subject to capital gains tax.
+- Generally, any profit you make on the sale of an asset is taxable at either 0%, 15% or 20% if you held the shares for more than a year, or at your ordinary tax rate if you held the shares for a year or less.
+- Any **dividends** you receive from a stock are also usually taxable
+
+### Capital Gains Taxes on Stocks
+- **Short-term** capital gains tax: A tax on profits from the sale of an asset held for a year or less. Short-term capital gains tax rates **are taxed as regular income**, which means they're subject to federal income tax rates.
+- **Long-term** capital gains tax: Long-term capital gains tax is a tax on profits from the sale of an asset held for longer than a year. Long-term capital gains tax rates are 0%, 15% or 20%, depending on your taxable income and filing status.
+- Taxes on stocks are incurred in the tax year the stock is sold or the dividend payment is made. Filers report and pay those taxes when they file their annual income tax return the following year. Form 1099-B — a summary of your trading activity — should arrive from your brokerage by mid-February, and this document will help you tally up total taxes on gains and losses
+
+### Taxes on Dividends
+- For tax purposes, there are two kinds of dividends: **qualified** and **nonqualified**. The tax rate on qualified dividends is 0%, 15% or 20%, depending on your taxable income and filing status. This is usually lower than the rate for nonqualified dividends. The tax rate on nonqualified dividends, sometimes called ordinary dividends, is the same as your regular income tax bracket
+
+### Net Investment Income Tax
+- Some high-income investors may also be subject to an additional 3.8% tax called the net investment income tax. The IRS imposes this tax on either your net investment income or the amount by which your modified adjusted gross income exceeds a certain threshold (below), whichever one ends up being less. 
+- The income thresholds for the net investment income tax are $250,000 for those married filing jointly, $125,000 for those married filing separately, and $200,000 for single filers and heads of household
+
+### Tax-Loss Harvesting
+- If you sell stock for less than you bought it for, you won’t owe any tax on the losses.
+- Selling stock at a loss may come with tax advantages. The difference between your capital gains and your capital losses is called your “net capital gain.” If your losses exceed your gains, however, that's called a "net capital loss," and you can use it to offset your ordinary income by up to $3,000 ($1,500 for those married filing separately)
+- This can be helpful in years when the stock market is down or volatile. Any additional losses can be carried forward to future years to offset capital gains of up to $3,000 ($1,500 for those married filing separately) of ordinary income per year
+  
 ---
 
 # Investment Analysis
