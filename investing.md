@@ -200,7 +200,18 @@ The relative proportions depend on your risk-tolerance and age, but for 20-somet
   - Remember that in an IRA transfer or conversion to a Roth IRA, you still need to pay taxes on any money in your traditional IRA that hasn’t been taxed. 
   - For example, if you contribute $6,000 to a traditional IRA, claim a deduction for the $6,000 on your tax return, and then convert that money to a Roth IRA, you’ll owe taxes on the $6,000
   - You’ll also owe taxes on whatever money that IRA contribution earned between the date when it was contributed to the traditional IRA and the date when you converted it to a Roth IRA
- 
+
+### Mega Backdoor Roth
+- If you only make pre-tax and/or Roth contributions, then the most you can contribute is $23,000 (or $30,500 if age 50 or older). With after-tax contributions, you may be able to increase the total amount saved to $69,000 — although any amounts contributed by your employer would count toward that limit.
+- However, after-tax contributions can come with some downsides
+-   One key drawback is that when you make withdrawals in retirement, any earnings will be taxed at ordinary income rates.
+-   Another important issue to consider is how the strategy could impact any employer contributions. If you reach the contribution limit for pre-tax, Roth, and after-tax amounts for a given calendar year, then your employer may not be able to contribute.
+-   And, depending on your plan, after-tax contributions may not be eligible for an employer match
+- The **mega backdoor Roth** strategy entails 2 steps: (1) making after-tax contributions to your 401(k) or other workplace retirement plan, and (2) then doing a conversion either to a Roth IRA or Roth 401(k). Note that not all plans allow these steps
+
+### 401(k) / 403(b) Contribution Types
+![Types of 401k contributions](images/personal-income-spending-flowchart.jpeg)
+
 ---
 
 # Non-Retirement Investing
