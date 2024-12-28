@@ -210,7 +210,7 @@ The relative proportions depend on your risk-tolerance and age, but for 20-somet
 - The **mega backdoor Roth** strategy entails 2 steps: (1) making after-tax contributions to your 401(k) or other workplace retirement plan, and (2) then doing a conversion either to a Roth IRA or Roth 401(k). Note that not all plans allow these steps
 
 ### 401(k) / 403(b) Contribution Types
-![Types of 401k contributions](images/personal-income-spending-flowchart.jpeg)
+![Types of 401k contributions](images/types-of-401k-contributions.png)
 
 ---
 
