@@ -1,12 +1,48 @@
 
-# Smart Pointers
+# Table of contents
+
+- [Table of contents](#table-of-contents)
+- [Memory management](#memory-management)
+  - [Smart Pointers](#smart-pointers)
+    - [`std::unique_ptr`](#stdunique_ptr)
+    - [`std::shared_ptr`](#stdshared_ptr)
+    - [Passing smart pointers to functions](#passing-smart-pointers-to-functions)
+    - [Returning from functions](#returning-from-functions)
+- [Classes](#classes)
+  - [Default constructors](#default-constructors)
+  - [C plus plus' most vexxing parse](#c-plus-plus-most-vexxing-parse)
+  - [Explicitly defaulted constructor \[c++ 11\]](#explicitly-defaulted-constructor-c-11)
+  - [Explicitly deleted constructor \[c++ 11\]](#explicitly-deleted-constructor-c-11)
+- [Inheritance (ch 10)](#inheritance-ch-10)
+  - [Client's view of inertance](#clients-view-of-inertance)
+  - [A derived class' view of inheritance](#a-derived-class-view-of-inheritance)
+  - [Preventing inheritance](#preventing-inheritance)
+  - [Overriding methods](#overriding-methods)
+  - [A client's view of overriden methods](#a-clients-view-of-overriden-methods)
+  - [Virtual destructors](#virtual-destructors)
+  - [Virtual constructors](#virtual-constructors)
+  - [Order of construction](#order-of-construction)
+  - [Order of destruction](#order-of-destruction)
+  - [Referring to parent names](#referring-to-parent-names)
+  - [Slicing](#slicing)
+  - [Polymorphism](#polymorphism)
+  - [Abstract base classes](#abstract-base-classes)
+  - [Multiple inheritance](#multiple-inheritance)
+  - [Obscure inheritance issues](#obscure-inheritance-issues)
+    - [Changing the overriden method's return type](#changing-the-overriden-methods-return-type)
+    - [Inherited constructors](#inherited-constructors)
+
+
+# Memory management 
+
+## Smart Pointers
 
 - In Modern C++ `raw pointers` should only allowed if there is no ownership involved
 - If ownership is involved
   - Use `std::unique_ptr` by default
   - Use `std::shared_ptr` if shared ownership is required
 
-## `std::unique_ptr`
+### `std::unique_ptr`
 
 Cannot be copied. Requires `std::move` in order to transfer ownership.
 
@@ -20,7 +56,7 @@ To get underlying raw pointer
 bar* = foo.get();
 ```
 
-## `std::shared_ptr`
+### `std::shared_ptr`
 
 Can be casted to other shared_ptr types using `const_pointer_cast`, `dynamic_pointer_cast`, etc. Unique pointers cannot be cast.
 
@@ -28,17 +64,25 @@ Can be casted to other shared_ptr types using `const_pointer_cast`, `dynamic_poi
 std::shared_ptr<foo> bar = std::make_shared<foo>();
 ```
 
-## Passing smart pointers to functions
+### Passing smart pointers to functions
 - A function should accept a smart pointer as a parameter **only if** ownership sharing/transferral is required
   - Pass `shared_ptrs` by value for shared ownership
   - Pass `unique_ptrs` by value for transferred ownership (requires move semantics)
 - Otherwise use raw `pointers` 
 
-## Returning from functions
+### Returning from functions
 
 - Unique and shared pointers can directly be returned by value from functions.
 
-# Classes and Inheritance
+# Classes
+
+## Default constructors
+
+Once any constructor is implemented, the compiler stops autogenerating the default constructor. One solution is to get in the habit of `explicitly defaulting` the constructor:
+```cpp
+public:
+  MyFooClass() = default;
+```
 
 ## C plus plus' most vexxing parse
 
@@ -64,6 +108,8 @@ For classes with only `static` methods. Can disable constructor via
 public:
     MyClass() = delete;
 ```
+
+# Inheritance (ch 10)
 
 ## Client's view of inertance
 
@@ -103,10 +149,11 @@ void someMethod() override;
 - Objects of type `Base` will call the base version of the method
 - Objects of type `Derived` will call the overriden version of the method
 - Pointers/references of type `Base*` / `Base&` will call the appropriate version of the method depending on if the actual object is of type `Base` or `Derived` (so long as the method was correctly marked as `virtual`)
+  - If `virtual` is mistakenly not added to method delcaration, this is known as `hiding`
 
 ## Virtual destructors
 
-Destructors should almost always be `virtual`, except if the class is marked as `final`.  If you don't need to do any work in the destructor, you should default it, at least for your base classes:
+Destructors **should almost always** be `virtual`, except if the class is marked as `final`.  If you don't need to do any work in the destructor, you should default it, at least for your base classes:
 ```cpp
 virtual ~Base() = default;
 ```
@@ -133,7 +180,7 @@ Note that if a derived class overrides a base class' `virtual` method, calling t
 
 ## Referring to parent names
 
-A method from a `Base` class that has been overriden by a `Derived` class can still be called:
+A method from a `Base` class that has been overriden by a `Derived` class can still be called using `scope resolution`:
 ```cpp
 void Derived::foo () {
   Base:foo()
@@ -148,14 +195,14 @@ Slicing occurs when a derived class is assigned by value to a base type. The ass
 Base myDerivedClass { myDerived }; // sliced
 ```
 
-This does not happen with pointers/references
+This does not happen with pointers/references. This is called `upcasting`:
 ```cpp
 // casting from derived to base is called upcasting
 Base* myDerivedClass { &myDerived }; // not sliced
 Base& myDerivedClass { myDerived }; // not sliced
 ```
 
-Casting from base to derived is called `downcasting` and is generally not good practice as there is not guarantee that the object is actually of the derived type
+Casting from base to derived is called `downcasting` and is generally not good practice as there is not guarantee that the object is actually of the derived type. The cast should be checked before using:
 ```cpp
 // downcasting
 Derived* myDerived { dynamic_cast<Derived*>(myBase) };
@@ -164,19 +211,31 @@ if (!myDerived) {
 }
 ```
 
+Note that while one can cast up and down the inheritance hierarchy, one cannot cast to a *sibling* class.
+
 ## Polymorphism
 
 Polymorphism allows objects with a common parent class to be used interchangably and to use objects in place of their parents
 
 ## Abstract base classes
 
-A class with a `pure virtual` method is said to be an `abstract` class. Pure virtual methods are virtual methods that have no implementation.
+A class with a `pure virtual` method is said to be an `abstract` class. Pure virtual methods are virtual methods that have no implementation. Abstract classes cannot be instantiated
+
 ```cpp
+// an abstract class
 public:
   virtual void foo() = 0; // pure virtual method
 ```
+## Multiple inheritance
 
-Abstract classes cannot be instantiated
+Classes can inherit from more than one base class:
+```cpp
+class Baz : public Foo, public Bar { };
+```
+
+- Constructors are called in order of how they are listed in class definition
+- If both Base classes implement the same method, must use `scope resolution` to specify which to call, or explicitly cast to the desired type
+- Ambiguity can also arise if the Base classes have a data member with the same name
 
 ## Obscure inheritance issues
 
@@ -184,5 +243,14 @@ Abstract classes cannot be instantiated
 
 An overriding method can change the return type if the original return type is a pointer or reference and the new return type is a pointer/reference to a descendant class (ie `covariant return types`)
 
+### Inherited constructors
+
+You cannot use constructors from a Base class unless specified with the `using` keyword:
+```cpp
+// derived class
+public:
+  using Base::Base; // inherits ALL constructors from Base class
+  Derived(int i);
+```
 
 
