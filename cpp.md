@@ -253,4 +253,70 @@ public:
   Derived(int i);
 ```
 
+It is not possible to inherit constructors from one Base class if another Base class has a constructor with the same parameter list. The Derived class would need to explicitly define the constructors.
+
+### Hiding of inherited constructors
+
+Derived classes can hide constructors from Base class by defining a constructor with the same parameters.
+
+### Initialization of data members
+
+When using inherited constructors, make sure all data members are properly initialized. If a Base class constructor is used to construct a Derived class, certain data members of the Derived class may not be initialized if they don't exist in the Base class.
+
+## Special cases in overriding methods
+
+- You cannot override a `static` method. Further, a method cannot be both `static` and `virtual`.
+- Overriding a method that has overloads in the Base class hides all of the overloads in the Derived class. They can still be called if you have a reference or pointer to the Derived object of type `Base&`/`Base*`.
+  - To avoid obscure bugs, you should override all versions of an overloaded method
+- You can override `private` and `protected` methods of a Base class
+- When overiding a method that has a default argument, you should provide a default argument as well, preferably the same value. This is because if you have a reference/pointer to an object, the default arguments will be assigned according to the type of the reference/pointer, *not* the actual underlying type. This is because default parameters are assigned at compile-time, not run-time. 
+
+## Copy constructors and assignment operators in derived classes
+
+- When defining derived classes, you need to be careful about copy constructors and `operator=`. 
+- If your Derived class has no special data members (pointers), it does not require a copy constructor or `operator=`. The default will be used for Derived data members, and the custom ones will be used for Base data members.
+- If you do define them in the Derived class, you need to explicitly chain to the Parent copy constructor:
+  ```cpp
+  Derived(const Derived& src) : Base { src } { };
+  ```
+
+## Runtime type facilities
+
+Run-Time Type Information (RTTI) facilities provide information about an Object's type at runtime:
+- `dynamic_cast` is one example
+- `typeid` lets you query an object's type at runtime. Use of `typeid` in conditional code should be used sparingly and is often a sign of poor design and could be replaced by using `virtual` methods instead. It is, however, useful for debugging or logging
+
+## Virtual base classes
+
+Virtual base classes prevent ambiguity in multiple inheritance when two or more Parent classes share the same Parent class
+```cpp
+class Dog : public virtual Animal
+```
+
+## Casts
+
+- `const_cast()`
+  - Removes const-ness
+- `static_cast()`
+  - Performs explicit conversions between builtin types (eg `int`, `double`, etc)
+  - Can also be used to explicitly convert between classes if the target class has a Constructor that takes in the current Class type. This is done automatically by the compiler if possible.
+- `reinterpret_cast()`
+  - Can be used to perform casts that technically aren't allowed by static casts, but make sense to the progrmmer. Eg you can reinterpret_cast a `void*` to a known class. 
+  - You can also use reinterpret_cast to cast from pointers to integral types (eg cast Foo* to int64. The int type must be large enough to hold the pointer. 
+  - Be careful with these casts as they don't provide any type checking
+- `dynamic_cast()`
+  - Provides runtime checks on casts within an object inheritance heierarchy.
+  - Used to cast pointers or references
+  - Returns `nullptr` for bad pointer conversions and `std::bad_cast` for references
+  - To use, your classes must have at least one `virtual` method (ie be polymorphic types)
+- `std::bit_cast()` (C++20)
+  - Creates a new object of given type and copies bits from source object to new object. 
+  - Requires that size of source and target are same.
+  - Requires that source and target are `trivially copyable`, meaning the underlying bytes of an object can be copied to and from an array
+- C-style casts technically work but span all of the C++ casts so it is strongly recommended not to use them in C++ code
+
+
+
+
+
 
