@@ -2,13 +2,17 @@
 # Table of contents
 
 - [Table of contents](#table-of-contents)
-- [Memory management](#memory-management)
+- [Memory management (ch 7)](#memory-management-ch-7)
+  - [Arrays](#arrays)
+  - [Pointers](#pointers)
+  - [Common memory pitfalls](#common-memory-pitfalls)
   - [Smart Pointers](#smart-pointers)
     - [`std::unique_ptr`](#stdunique_ptr)
     - [`std::shared_ptr`](#stdshared_ptr)
+    - [`std::weak_ptr`](#stdweak_ptr)
     - [Passing smart pointers to functions](#passing-smart-pointers-to-functions)
     - [Returning from functions](#returning-from-functions)
-- [Classes](#classes)
+- [Classes (ch 8-9)](#classes-ch-8-9)
   - [Default constructors](#default-constructors)
   - [C plus plus' most vexxing parse](#c-plus-plus-most-vexxing-parse)
   - [Explicitly defaulted constructor \[c++ 11\]](#explicitly-defaulted-constructor-c-11)
@@ -31,6 +35,13 @@
   - [Obscure inheritance issues](#obscure-inheritance-issues)
     - [Changing the overriden method's return type](#changing-the-overriden-methods-return-type)
     - [Inherited constructors](#inherited-constructors)
+    - [Hiding of inherited constructors](#hiding-of-inherited-constructors)
+    - [Initialization of data members](#initialization-of-data-members)
+  - [Special cases in overriding methods](#special-cases-in-overriding-methods)
+  - [Copy constructors and assignment operators in derived classes](#copy-constructors-and-assignment-operators-in-derived-classes)
+  - [Runtime type facilities](#runtime-type-facilities)
+  - [Virtual base classes](#virtual-base-classes)
+  - [Casts](#casts)
 
 
 # Memory management (ch 7)
@@ -99,6 +110,15 @@ Decument* newArray { new Document[numDocs] };
   char* myCharPtr { static_cast<char*>(myDoc) }; // static cast to unrelated type, won't compile
   ```
 
+- Pointer arithmetic
+  - If you have an `int` pointer, incrementing the pointer value by 1 moves forward in memory by the size of an int.
+
+## Common memory pitfalls
+
+- Underallocating data buffers and out of bounds access
+  - Solution: avoid c-style strings and arrays, use c++ strings and std::vectors instead
+- Memory leaks
+- Double-deletion, use-after-free, invalid pointers 
 
 ## Smart Pointers
 
@@ -109,17 +129,33 @@ Decument* newArray { new Document[numDocs] };
 
 ### `std::unique_ptr`
 
-Cannot be copied. Requires `std::move` in order to transfer ownership.
+Cannot be copied and represents sole ownership of a resource. Requires `std::move` in order to transfer ownership.
+You can specify a custom deleter function if needed.
 
-To create
+To create:
 ```cpp
-std::unique_ptr<foo> bar = std::make_unique<foo>();
+// always use std::make_unique to construct a unique pointer
+// this is the most memory-safe way to construct
+std::unique_ptr<foo> bar = std::make_unique<foo>(); // uses value initializtion (calls default constructors and sets numerical builtin types to 0)
 ```
 
-To get underlying raw pointer
+To dereference, use `*` as normal:
+```cpp
+(*mySmartPointer).go();
+```
+
+To get underlying raw pointer:
 ```cpp
 bar* = foo.get();
 ```
+
+To free the underlying pointer and optionally change it to a different pointer:
+```cpp
+mySmartPointer.reset(); // frees resource and sets to nullptr
+mySmartPointer.reset(new Simple {}); // frees and assigns new pointer
+Simple* simple { mySmartPointer.release() }; // release ownership and get raw pointer
+```
+
 
 ### `std::shared_ptr`
 
@@ -129,11 +165,28 @@ Can be casted to other shared_ptr types using `const_pointer_cast`, `dynamic_poi
 std::shared_ptr<foo> bar = std::make_shared<foo>();
 ```
 
+Can call `reset()` but the underlying memory is **only freed when all references have been deleted/reset**.
+
+### `std::weak_ptr`
+
+Contains a reference to a resource managed by a `shared_ptr`. A `weak_ptr` does not own the resource, so it does not prevent freeing by the shared_ptr.
+Can be used, for example, to see if a resource managed by a shared_ptr has been freed, use the `lock()` method:
+```cpp
+void useResource(std::weak_ptr<Simple>& weakSimple) {
+  auto resource { weakSimple.lock() };
+  if (resource) {
+    std::cout << "Resource is still alive!" << std::endl;
+  } else {
+    std::cout << "Resource has been freed!" << std::endl;
+  }
+}
+```
+
 ### Passing smart pointers to functions
 - A function should accept a smart pointer as a parameter **only if** ownership sharing/transferral is required
   - Pass `shared_ptrs` by value for shared ownership
   - Pass `unique_ptrs` by value for transferred ownership (requires move semantics)
-- Otherwise use raw `pointers` 
+- Otherwise use a reference, const-reference, or raw pointer (if `nullptr` is a valid value for the parameter) 
 
 ### Returning from functions
 
