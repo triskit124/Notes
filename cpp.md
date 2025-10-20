@@ -33,7 +33,72 @@
     - [Inherited constructors](#inherited-constructors)
 
 
-# Memory management 
+# Memory management (ch 7)
+
+In modern C++, you should avoid manual memory management as much as possible. For example, use `std::vector` instead of dynamically allocated c-style arrays, and use `smart pointers` instead of using `new` to create raw pointers.
+
+- Stack memory
+  - "Automatic" variables delared normally are allocated automatically on the stack and are deleted when they go out of scope:
+    ```cpp
+    int i { 7 };
+    ```
+- Free store
+  - Variables declared with `new` are allocated on the free store and aren't deleted until manually done
+    ```cpp
+    int* ptr { new int };
+    ```
+  - Note that the above variable `ptr` is still on the stack even though it points to memory on the free store
+  - You should always immediately initialize a pointer or intialize it to `nullptr`.
+  - Every line that allocates memory using `new` should correspond to another line that releases it using `delete`
+  - It is recommended but not required to set a pointer to `nullptr` after releasing the memory
+    ```cpp
+    int* ptr { new int };
+    delete ptr;
+    ptr = nullptr;
+    ```
+  - Don't use `malloc`, `realloc`, or `free` in C++
+
+## Arrays
+
+- Arrays are allocated in contiguous pieces of memory
+- Variable-sized arrays are not standard C++. Some compilers may support them, but it is not recommended.
+- Arrays can be initialized using
+```cpp
+/* on the stack */
+int myArray[5]; // uninitialized values, bad!
+int myArray[5] { 1, 2, 3, 4, 5 };
+int myArray[5] { 0 };  // inits all to 0
+int myArray[5] { }; // also inits all to 0
+
+/* on the free store */
+int* myArray { new int[] { 1, 2, 3, 4, 5 } };
+delete[] myArray; // use the array version of delete
+myArray = nullptr;
+```
+
+- The advantage of putting an array on the free store (ie dynamically allocating the memnory) is that you can define the size at runtime:
+```cpp
+size_t numDocs = getNumDocs();
+Decument* newArray { new Document[numDocs] };
+```
+
+- Creating an array of objects will call the `default constructor` for each of the objects.
+- Arrays are pointers
+  - The address of a pointer is the address of the first element in memory.
+  - Arrays are treated as pointers when passed into functions. Must also provide the size of the array since arrays do not store that information
+
+## Pointers
+
+- Pointers are just addresses to memory. 
+- When you dereference a pointer using the `*` operator, you are looking up the contents of the memory at that address.
+- Because pointers are addresses, they are somewhat weakly typed
+- You can cast from one ptr type to another using c-style casts:
+  ```cpp
+  Document* myDoc { getDocument() };
+  char* myCharPtr { (char*)myDoc }; // c-style cast to unrelated type. compiles, but what is the result?
+  char* myCharPtr { static_cast<char*>(myDoc) }; // static cast to unrelated type, won't compile
+  ```
+
 
 ## Smart Pointers
 
@@ -74,7 +139,7 @@ std::shared_ptr<foo> bar = std::make_shared<foo>();
 
 - Unique and shared pointers can directly be returned by value from functions.
 
-# Classes
+# Classes (ch 8-9)
 
 ## Default constructors
 
