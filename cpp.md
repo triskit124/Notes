@@ -13,10 +13,19 @@
     - [Passing smart pointers to functions](#passing-smart-pointers-to-functions)
     - [Returning from functions](#returning-from-functions)
 - [Classes (ch 8-9)](#classes-ch-8-9)
+  - [In-class member initializers](#in-class-member-initializers)
   - [Default constructors](#default-constructors)
-  - [C plus plus' most vexxing parse](#c-plus-plus-most-vexxing-parse)
-  - [Explicitly defaulted constructor \[c++ 11\]](#explicitly-defaulted-constructor-c-11)
-  - [Explicitly deleted constructor \[c++ 11\]](#explicitly-deleted-constructor-c-11)
+  - [Compiler-generated default constructor](#compiler-generated-default-constructor)
+  - [Most vexxing parse](#most-vexxing-parse)
+  - [Explicitly defaulted constructor](#explicitly-defaulted-constructor)
+  - [Explicitly deleted constructor](#explicitly-deleted-constructor)
+  - [Constructor initializers (member initializer lists)](#constructor-initializers-member-initializer-lists)
+  - [Copy constructors](#copy-constructors)
+  - [Delegating constructors](#delegating-constructors)
+  - [Converting constructors](#converting-constructors)
+  - [Summary of compiler-generated constructors](#summary-of-compiler-generated-constructors)
+  - [Destructors](#destructors)
+  - [Assignment](#assignment)
 - [Inheritance (ch 10)](#inheritance-ch-10)
   - [Client's view of inertance](#clients-view-of-inertance)
   - [A derived class' view of inheritance](#a-derived-class-view-of-inheritance)
@@ -194,15 +203,22 @@ void useResource(std::weak_ptr<Simple>& weakSimple) {
 
 # Classes (ch 8-9)
 
-## Default constructors
+## In-class member initializers
 
-Once any constructor is implemented, the compiler stops autogenerating the default constructor. One solution is to get in the habit of `explicitly defaulting` the constructor:
+It is recommended to always initialize data members in a class. One way is to use in-class member initializers:
 ```cpp
-public:
-  MyFooClass() = default;
+private:
+  m_value { 0 };
 ```
 
-## C plus plus' most vexxing parse
+## Default constructors
+
+A constructor that can be called without any parameters is called the `default constructor`.
+
+## Compiler-generated default constructor
+When no constructors are defined, the compiler generates the `compiler-generated default constructor` that calls the default constructor on all object members but does not initialize language primatives such as `ints` or `doubles`.
+
+## Most vexxing parse
 
 When instantiating an object of a class using the *default constructor*, you need to omit the function-call style parens:
 ```cpp
@@ -211,21 +227,94 @@ FooClass bar; // correct
 FooClass bar { }; // also correct
 ```
 
-## Explicitly defaulted constructor [c++ 11]
+## Explicitly defaulted constructor
 
-Saves needing to implement an empty constructor
+Once any constructor is implemented, **the compiler stops autogenerating the default constructor**. One solution is to get in the habit of `explicitly defaulting` the constructor:
 ```cpp
 public:
     MyClass() = default;
 ```
 
-## Explicitly deleted constructor [c++ 11]
+## Explicitly deleted constructor
 
 For classes with only `static` methods. Can disable constructor via
 ```cpp
 public:
     MyClass() = delete;
 ```
+
+## Constructor initializers (member initializer lists)
+
+```cpp
+SpreadsheetCell::SpreadsheetCell(double initialValue) : m_value { initialValue } { }
+```
+
+Initializing data members with `ctor initializers` behaves differently than initializng inside the constructor body. When a class is created, data members are created before the constructor is called. By the time you assign a value to an object inside the ctor body, you are actually modifying its value. A ctor-initializer allows you to provide initial values for data members as they are created, which is more efficient.
+
+If your class has a data member that has a default constructor, you do not have to explicitly initialize it in the ctor-initializer.
+
+Several types of data members must be initialized in a ctor-initializer or with an in-class initializer:
+- const data members
+- reference data members
+- object data members w/o default constructors
+- base classes w/o default constructors
+
+If a class has both in-class initializers and constructor initializers, the value provided in the constructor initializer is used.
+
+## Copy constructors
+
+In most cases, there is no need to specify your own copy constructor. C++ autogenerates one for you. The exception is usually when you have dynamically allocated memory or other resources in your class. Similar to default constructors, you can explicitly default/delete copy constructors.
+
+## Delegating constructors
+
+Constructors that call a different constructor from the same class. Must be used in the ctor initializer.
+
+## Converting constructors
+
+When you have a constructor that takes a single parameter that is a different type from the class, it can be used as a `converting constructor` to convert from that type to the class. 
+
+It is reccommended to mark a converting constructor as `explicit` to prevent this happening implicitly.
+
+## Summary of compiler-generated constructors
+
+If you define:
+
+- no constructors
+  - compiler generates a default constructor and copy constructor
+- a default constructor only 
+  - compiler generates a copy constructor
+- a copy constructor only
+  - compiler generates no constructors
+- a single or multi-argument non-copy constructor only
+  - compiler generates a copy constructor
+- a default constructor and a single or multi-argument non-copy constructor
+  - compiler generates a copy constructor
+
+```cpp
+class SpreadsheetCell
+{
+  public:
+    SpreadsheetCell(double initVal); // constructor converts a double to a SpreadsheetCell
+    SpreadsheetCell(const std::string& initVal); // constructor converts a string to a SpreadsheetCell
+};
+
+SpreadsheetCell myCell { 4 };
+myCell = "4";
+```
+
+## Destructors
+
+If you don't define a destructor, the compiler generates one that recursively calls destructos on members.
+
+## Assignment
+
+Copy constructor is only called if the object doesn't exit. If it already exists, the `assignment operator` is called instead
+
+```cpp
+SpreadsheetCell& operator=(const SpreadsheetCell& rhs); // always return a reference for copy assignment operators
+```
+
+
 
 # Inheritance (ch 10)
 
