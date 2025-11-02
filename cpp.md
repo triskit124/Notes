@@ -26,6 +26,10 @@
   - [Summary of compiler-generated constructors](#summary-of-compiler-generated-constructors)
   - [Destructors](#destructors)
   - [Assignment](#assignment)
+  - [Dynamic memory allocation in objects](#dynamic-memory-allocation-in-objects)
+    - [Freeing memory in destructors](#freeing-memory-in-destructors)
+    - [Handling copying and assignment](#handling-copying-and-assignment)
+      - [Copy-swap idiom](#copy-swap-idiom)
 - [Inheritance (ch 10)](#inheritance-ch-10)
   - [Client's view of inertance](#clients-view-of-inertance)
   - [A derived class' view of inheritance](#a-derived-class-view-of-inheritance)
@@ -312,6 +316,41 @@ Copy constructor is only called if the object doesn't exit. If it already exists
 
 ```cpp
 SpreadsheetCell& operator=(const SpreadsheetCell& rhs); // always return a reference for copy assignment operators
+```
+
+## Dynamic memory allocation in objects
+
+### Freeing memory in destructors
+
+If you dynamically allocate memory in an object, the place to free that memory is the destructor.
+
+### Handling copying and assignment
+
+When you copy an object, primitives (ints, doubles) and **pointers** are `shallow-copied`, meaning that they just copy/assign data members from the source directly to the destination object. This is an issue for dynamically allocated memory, as the new object will contain a pointer to the same memory as the original.
+
+Thus, whenever you have dynamically allocated memory in a class, you should write your own copy constructor and assignment operator to provide a `deep-copy` of the memory!
+
+#### Copy-swap idiom
+
+When implementing assignment operator, you want an all or nothing mechanism. You don't want an exception to happen in the middle of assignment, which would leave the object in a bad state:
+
+- Implement a swap method for the class, as well as a non-member swap function for Standard Library algorithms:
+```cpp
+class Spreadsheet
+{
+    public:
+    Spreadsheet& operator=(const Spreadsheet& rhs) { 
+        Spreadsheet temp { rhs }; // use copy constructor
+        swap(temp); // swap current instance with new instance
+        return *this; // old memory will be cleaned up in descructor for temp
+    };
+
+    void swap(Spreadsheet& other) noexcept {
+        std::swap(m_width, other.m_width);
+        std::swap(m_cells, other.m_cells); // use swap utility for dynamically allocated memory
+    };
+};
+void swap(Spreadsheet& first, Spreadsheet& second) { first.swap(second); };
 ```
 
 
