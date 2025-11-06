@@ -30,6 +30,12 @@
     - [Freeing memory in destructors](#freeing-memory-in-destructors)
     - [Handling copying and assignment](#handling-copying-and-assignment)
       - [Copy-swap idiom](#copy-swap-idiom)
+    - [R-value references](#r-value-references)
+    - [Move semantics](#move-semantics)
+    - [The rule of five](#the-rule-of-five)
+    - [The rule of zero](#the-rule-of-zero)
+  - [More about methods](#more-about-methods)
+    - [Mutable data members](#mutable-data-members)
 - [Inheritance (ch 10)](#inheritance-ch-10)
   - [Client's view of inertance](#clients-view-of-inertance)
   - [A derived class' view of inheritance](#a-derived-class-view-of-inheritance)
@@ -339,21 +345,94 @@ When implementing assignment operator, you want an all or nothing mechanism. You
 class Spreadsheet
 {
     public:
-    Spreadsheet& operator=(const Spreadsheet& rhs) { 
-        Spreadsheet temp { rhs }; // use copy constructor
-        swap(temp); // swap current instance with new instance
-        return *this; // old memory will be cleaned up in descructor for temp
-    };
+        Spreadsheet& operator=(const Spreadsheet& rhs)
+        { 
+            Spreadsheet tmp { rhs }; // use copy constructor
+            swap(temp); // swap current instance with new instance
+            return *this; // old memory will be cleaned up in descructor for temp
+        };
 
-    void swap(Spreadsheet& other) noexcept {
-        std::swap(m_width, other.m_width);
-        std::swap(m_cells, other.m_cells); // use swap utility for dynamically allocated memory
-    };
+        void swap(Spreadsheet& other) noexcept
+        {
+            std::swap(m_width, other.m_width);
+            std::swap(m_height, other.m_height);
+            std::swap(m_cells, other.m_cells); // use swap utility for dynamically allocated memory
+        };
 };
+
+// non-member swap function
 void swap(Spreadsheet& first, Spreadsheet& second) { first.swap(second); };
 ```
 
+### R-value references
 
+- An `lvalue` is something of which you can take an address, for example a named variable
+- An `rvalue` is anything that is not an `lvalue`, for example a literal or temperorary object/value
+- An `rvalue reference` is a reference to an `rvalue`. Specifically it refers to temporary objects or an object that has been explicitly moved using `std::move()`. Rvalue references can be utlizied to copy pointers instead of large objects
+  - If a temporary value is assigned to an rvalue reference, the lifetime is extended while that reference stays in scope
+
+```cpp
+void foo(string& msg); // function accepting an lvalue reference
+void foo(string&& msg); // function accepting an rvalue reference
+
+string a { "hello" };
+string b { "world" };
+
+foo(a); // calls the lvalue reference function overload
+foo(a + b); // calls the rvalue reference function overload
+foo("hello"); // calls the rvalue reference function overload
+foo(std::move(a)); // calls the rvalue reference function overload
+```
+
+### Move semantics
+
+Moving moves ownership of memory and other resources from one object to another. It basically does a shallow copy of data members and switches ownership of allocated memory to prevent dangling pointers and memory leaks.
+
+To implement `move semantics` in a class, you must implement a `move constructor` and `move assignment operator`. These move ownership of the memory from a source object to a new object. Thus, move semantics are only useful if the source object is no longer needed.
+
+The compiler automatically generates default move constructor if and only if the class has no user-declared copy constructor, copy assignment operator, move assignment operator, or destructor.
+
+Similarly, the compiler autogenerates a default move assignment operator iff the class has no user-declared copy constructor, move constructor, copy assignment, or destructor.
+
+```cpp
+class Spreadsheet
+{
+    public:
+        // move constructor
+        Spreadsheet(Spreadsheet&& src) noexcept
+        {
+            swap(*this, src); // use the swap method introduced previously in copy-swap section
+        }
+
+        // move assignment operator
+        Spreadsheet& operator=(Spreadsheet&& rhs) noexcept
+        {
+            swap(*this, rhs);
+            return *this;
+        }
+};
+```
+
+### The rule of five
+
+When you delcare one or more of the five `special member functions`, you should declare all of them - either through explicitly defining, defaulting, or deleting.
+
+**Special member functions:**
+- Copy constructor
+- Copy assignment operator
+- Move constructor
+- Move assignment operator
+- Destructor
+
+### The rule of zero
+
+In modern c++, avoid writing any of the five SMFs by avoiding dynamically allocating resources in classes. Instead use modern constructs such as Standard Library containers and smart pointers. The rule of five should be limited to custom RAII classes.
+
+## More about methods
+
+### Mutable data members
+
+Tagging a data member as `mutable` means that it is ok for `const` methods to modify it. Neat!
 
 # Inheritance (ch 10)
 
