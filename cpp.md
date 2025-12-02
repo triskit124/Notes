@@ -36,6 +36,11 @@
     - [The rule of zero](#the-rule-of-zero)
   - [More about methods](#more-about-methods)
     - [Mutable data members](#mutable-data-members)
+    - [Inline methods](#inline-methods)
+    - [Const static data members](#const-static-data-members)
+  - [Comparison operators](#comparison-operators)
+    - [Equality](#equality)
+    - [Spaceship](#spaceship)
 - [Inheritance (ch 10)](#inheritance-ch-10)
   - [Client's view of inertance](#clients-view-of-inertance)
   - [A derived class' view of inheritance](#a-derived-class-view-of-inheritance)
@@ -433,6 +438,35 @@ In modern c++, avoid writing any of the five SMFs by avoiding dynamically alloca
 ### Mutable data members
 
 Tagging a data member as `mutable` means that it is ok for `const` methods to modify it. Neat!
+
+### Inline methods
+
+Tagging a method as `inline` hints to the compiler that the call to the method can be replaced by the body of the method itself. This can potetntially be an optimization if the method is very small and is called a lot.
+
+### Const static data members
+
+Use `const static` data members for classes instead of global constants if the constants apply only to the class.
+
+## Comparison operators
+
+### Equality
+
+In C++ 20, it is recommended you implement `operator==` as a method. It will automatically implement `operator!=` for you. it is recommended you make the result `[[nodiscard]] as well:
+```cpp
+[[nodiscard]] bool SpreadsheetCell::operator==(const SpreadsheetCell& rhs) const;
+```
+
+### Spaceship
+
+In C++ 20, if you've implemented `operator==`, the only other comparison operator you need to implement is `operator<=>` (spaceship). Once you've implemented these two operators, C++ will automatically provide support for all 6 comparison operators (<, <=, >, >=, ==, !=).
+
+```cpp
+std::partial_ordering SpreadsheetCell::operator<=>(const SpreadsheetCell& rhs) const {
+    return getValue() <=> rhs.getValue;
+}
+```
+
+Note: you can explicitly default the spaceship operator (which just calls comparison operators on all data members), which will use compiler-generator comparisons for all comparison operators.
 
 # Inheritance (ch 10)
 
