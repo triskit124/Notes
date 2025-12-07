@@ -2,6 +2,7 @@
 # Table of contents
 
 - [Table of contents](#table-of-contents)
+- [Intro](#intro)
 - [Memory management (ch 7)](#memory-management-ch-7)
   - [Arrays](#arrays)
   - [Pointers](#pointers)
@@ -66,7 +67,25 @@
   - [Runtime type facilities](#runtime-type-facilities)
   - [Virtual base classes](#virtual-base-classes)
   - [Casts](#casts)
+- [Templates (ch 12)](#templates-ch-12)
+  - [Class templates](#class-templates)
+    - [Zero-initialization syntax](#zero-initialization-syntax)
+    - [Using template classes](#using-template-classes)
+    - [Type aliases](#type-aliases)
+    - [How the compiler processes templates](#how-the-compiler-processes-templates)
+    - [Selective instantiation](#selective-instantiation)
+    - [Template requirements on types](#template-requirements-on-types)
+    - [Distributing template code definitions between files](#distributing-template-code-definitions-between-files)
+    - [Non-type template parameters](#non-type-template-parameters)
+    - [Class template argument deduction (CTAD)](#class-template-argument-deduction-ctad)
+    - [Class template specialization](#class-template-specialization)
+    - [Deriving from class templates](#deriving-from-class-templates)
+  - [Function templates](#function-templates)
 
+
+# Intro
+
+These notes are my personal summary of *Professional C++, 5th Edition* by Marc Gregoire, which covers up to C++20.
 
 # Memory management (ch 7)
 
@@ -674,6 +693,129 @@ class Dog : public virtual Animal
   - Requires that source and target are `trivially copyable`, meaning the underlying bytes of an object can be copied to and from an array
 - C-style casts technically work but span all of the C++ casts so it is strongly recommended not to use them in C++ code
 
+# Templates (ch 12)
+
+## Class templates
+
+Useful primarily for containers / data structures.
+
+- class name: `Grid`
+- template ID: `Grid<T>` (an `implementation` of the Grid class template)
+
+```cpp
+template <typename T> class Grid {
+
+  // no need to use Grid<T> within class definition.
+  // however, outsize of a class definition, must use Grid<T>
+  Grid(size_t width, size_t height);
+
+};
+```
+
+The `template <typname T>` specifier must go before each method definition:
+```cpp
+template <typename T> 
+Grid<T>::Grid(size_t width, size_t height) {
+    // foo
+}
+```
+
+**NOTE:** method definitions of class templates must be visible to any client code using the class template. Usually this means putting the method definitions in the same file as the class definition.
+
+### Zero-initialization syntax
+
+If you need a default value for a template type, you can use `zero-initialization syntax`: `T{}` which calls default constructor for classes or uses 0 if `T` is a primitive type
+
+### Using template classes
+
+Must specify template ID:
+```cpp
+Grid<int> myGriddy;
+Grid<double> otherGriddy;
+
+void myGriddyFunction(const Grid<bool>& grid) { };
+```
+
+### Type aliases
+
+Can alias a class template type via
+```cpp
+using IntGrid = Grid<int>;
+
+// can also partially specify types. This is called an alias template:
+template <typename T1>
+using OtherName = MyClassTemplate<T1, double>;
+```
+
+### How the compiler processes templates
+
+Template method definitions are not compiled until they are used. This is because the compiler needs to know for which types the template is being instantiated.
+
+When the compiler encounters an instantiation, it writes code for, say, an `int` version of `Grid` where `T` is literally just replaced with `int`. If you don't instantiate a class template for any types, the class is never compiled.
+
+### Selective instantiation
+
+Similarly, the compiler generates code only for class methods you call. (It always generates code for `virtual` class methods). Thus, some compiler errors in template classes may go un-noticed. You can force the compiler to generate everything by using `explicit template instantiations`:
+```cpp
+template class Grid<int>; // generates all code; useful for finding compiler errors
+```
+
+### Template requirements on types
+
+Be aware that the typename `T` could really be any type, so be careful with what assumptions you make when using the type. (See `Concepts`).
+
+### Distributing template code definitions between files
+
+Method definitions of class templates must be visible to any client code using the class template. This can be accomplished in several ways:
+
+- Place method definitions in same file as class definition
+- Others (todo)
+
+### Non-type template parameters
+
+You can use integral types (`size_t`, `int`, etc.) as template parameters too:
+```cpp
+template <typename T, size_t WIDTH = 10, size_t HEIGHT = 10> class Grid { };
+```
+This is useful because `WIDTH` and `HEIGHT` are known before compilation, so you can use fixed-size arrays instead of vectors, for example. 
+
+Note if you have template paramers with `default values` as above, you do not need to speficy the default values when defining the methods:
+```cpp
+template<typename T, size_t WIDTH, size_t HEIGHT>
+void Grid<T, WIDTH, HEIGHT> myGriddyFunc() { };
+```
+
+### Class template argument deduction (CTAD)
+
+The compiler can automatically deduce template parameter type from arguments passed to a class template constructor. This, of course, only works if each template parameter either has a default value or are used as parameters in the constructor so that they can be deduced.
+```cpp
+std::pair<int, double> pair1 { 1, 2.3 }; // normal
+std::pair pair2 { 1, 2.3 }; // deduced using CTAD
+```
+
+### Class template specialization
+
+You can write alternate implementations of class templates for specific types. These are called `template specializations`. When you specialize a template, you don't inherit any code. You must rewrite the entire class.
+```cpp
+template <>
+class Grid<const char*> { 
+
+    // there will be no references to T here. Work directly with const char*
+
+};
+```
+
+### Deriving from class templates
+
+You can inherit from classes. If the Derived class inherits from the template itself, it must also be a template. If it derives from a specific instantiation of a class template, it doesn't have to be a template.
+```cpp
+template <typename T>
+class GameBoard : public Grid<T> { }; // GameBoard is also a class template with paramter T
+```
+
+**Note**: Use inheritance for extending implementations and for polymorphism. Use specialization for customizing implementations for particular types.
+
+## Function templates
 
 
 
