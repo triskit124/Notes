@@ -81,6 +81,9 @@
     - [Class template specialization](#class-template-specialization)
     - [Deriving from class templates](#deriving-from-class-templates)
   - [Function templates](#function-templates)
+    - [Function template overloading](#function-template-overloading)
+  - [Concepts](#concepts)
+    - [Predefined standard concepts](#predefined-standard-concepts)
 
 
 # Intro
@@ -817,7 +820,51 @@ class GameBoard : public Grid<T> { }; // GameBoard is also a class template with
 
 ## Function templates
 
+You can also write templates for standalone functions.
 
+### Function template overloading
 
+It is not recommended to write function template specializations. Instead, overload function templates with non-template functions.
 
+## Concepts
+
+C++20 adds `concepts`, named requirements used to constrain template type and non template type parameters of class and function templates.
+Unconstrained template type parameters of function and class templates should not be used, if possible.
+```cpp
+template <typename T>
+
+// constraint expression
+concept C = sizeof(T) == 4
+
+// simple require
+concept Incrementable = requires(T x) { x++; ++x }; // compiler verifies this compiles
+
+// type requirement
+concept C = requires { typename T::value_type; }; // requires that T has a value_type member
+
+// compound requirement
+concept C = requires (T x, T y) {
+  { x.swap(y) } noexcept;
+};
+
+// nested
+concept C = requires (T t) {
+  requires sizeof(t) == 4;
+  ++t; t++; --t; t--;
+};
+
+// combining requirements
+concept IncrementableAndDecrementable = Incrementable<T> && Decrementable<T>;
+```
+
+### Predefined standard concepts
+
+- Core language concepts
+  - `std::same_as`, `std::derived_from`, `std::convertable_to`, `std::integral`, `std::floating_point`, `std::copy_constructable`, etc.
+- Comparison
+  - `std::equality_comparable`, `std::totally_ordered`, etc.
+- Objects
+  - `std::movable`, `std::copyable`, etc.
+- Callables
+  - `std::invocable`, `std::predicate`, etc.
 
