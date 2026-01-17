@@ -84,6 +84,13 @@
     - [Function template overloading](#function-template-overloading)
   - [Concepts](#concepts)
     - [Predefined standard concepts](#predefined-standard-concepts)
+- [Advanced Templates (ch 26)](#advanced-templates-ch-26)
+  - [Class template partial specialization](#class-template-partial-specialization)
+  - [Template recursion](#template-recursion)
+  - [Variadic Templates](#variadic-templates)
+  - [Template Metaprogramming](#template-metaprogramming)
+    - [Constexpr if](#constexpr-if)
+    - [Type Traits](#type-traits)
 
 
 # Intro
@@ -867,4 +874,168 @@ concept IncrementableAndDecrementable = Incrementable<T> && Decrementable<T>;
   - `std::movable`, `std::copyable`, etc.
 - Callables
   - `std::invocable`, `std::predicate`, etc.
+
+# Advanced Templates (ch 26)
+
+## Class template partial specialization
+
+You can partically specialize a class, wherein you specialize only some of the template parameters:
+
+```cpp
+export template <size_t WIDTH, size_t HEIGHT>
+class Grid<const char*, WIDTH, HEIGHT>
+{
+
+};
+```
+
+Unlinke in full specializations, in partical specializations, you must include the template line in front of every method definition.
+
+## Template recursion
+
+You can write templates that use recursion similar to function recursion
+
+```cpp
+/* Represents an N-dimensional grid of size "size" */
+template <typename T, size_t N>
+class NDGrid
+{
+    public:
+        explicit NDGrid(size_t size = DefaultSize) {  resize(size); }
+        virtual ~NDGrid() = default;
+
+        NDGrid<T, N-1>& operator[] (size_t x) { return m_elements[x]; }
+        const NDGrid<T, N-1>& operator[] (size_t x) const { return m_elements[x]; }
+
+        void resize(size_t newSize) {
+            m_elements.resize(newSize);
+
+            for (auto& element : m_elements) { 
+                element.resize(newSize);
+            }
+        }
+
+        static const size_t DefaultSize { 10 };
+
+    private:
+        std::vector<NDGrid<T, N-1>> m_elements; // data member
+}
+
+/* Define base case using partial template specialization of size 1 */
+template <typename T>
+class NDGrid<T, 1>
+{
+    public:
+        explicit NDGrid(size_t size = DefaultSize) {  resize(size); }
+        virtual ~NDGrid() = default;
+
+        NDGrid<T, N-1>& operator[] (size_t x) { return m_elements[x]; }
+        const NDGrid<T, N-1>& operator[] (size_t x) const { return m_elements[x]; }
+
+        void resize(size_t newSize) {
+            m_elements.resize(newSize);
+
+            for (auto& element : m_elements) { 
+                element.resize(newSize);
+            }
+        }
+
+        static const size_t DefaultSize { 10 };
+
+    private:
+        std::vector<NDGrid<T, N-1>> m_elements; // data member
+}
+
+// Now you can write code like
+NDGrid<int, 3> my3DGrid { 4 };
+my3DGrid[2][1][2] = 5;
+```
+
+## Variadic Templates
+
+Variadic templates can take a variable number of template parameters:
+
+```cpp
+void handleValue(int value) { };
+void handleValue(double value) { };
+void handleValue(std::string value) { };
+
+// The processValues implementation is recursive
+// Need to have a base case by implementing a `processValues()` function that accepts no arguments.
+void processValues() { }
+
+// Variadic template
+template <typename T1, typename... Tn>
+void processValues(T1 arg, Tn... args)
+{
+    handleValue(arg1);
+    processValues(args...);
+}
+```
+
+The `...` syntax here represents a `parameter pack`. You can unpack parameter packs like
+```
+processValues(args...);
+```
+
+## Template Metaprogramming
+
+The goal of template metaprogramming is to perform some computations as compile time. The term "meta" programming refers to the fact that it is essentially a programming language ontop of another.
+
+```cpp
+/* uses template recursion to compute a factorial at compile time */
+template <unsigned char f>
+class Factorial
+{
+    public:
+        static const unsigned long long value { f * Factorial<f - 1>::value };
+};
+
+template <>
+class Factorial<0>
+{
+    public:
+        static const unsigned long long value { 1 };
+};
+
+int main()
+{
+    std::cout << Factorial<6>::value << std::endl;
+}
+```
+
+### Constexpr if
+
+C++17 added `constexpr if`. These are `if` statements executed at compile time. If a branch is never taken, it is not compiled. This can be used to simplify a lot of metaprogramming approaches.
+
+```cpp
+/* uses template recursion to print contents of a tuple */
+template <typename TupleType, int n = tuple_size<TupleType>::value>
+void tuplePrint(const TupleType* t) {
+    if constexpr (n > 1) {
+        tuplePrint<TupleType, n - 1>(t);
+    }
+    std::cout << get<n - 1>(t) << std::endl;
+}
+
+int main()
+{
+    std::tuple t1 { 167, "Testing"s, false, 2.3 };
+    tuplePrint(t1);
+}
+```
+
+### Type Traits
+
+Type traits allow you to make decisions based on types at compile time. For example, if a type is derived from another type, is convertable to another type, is integral, etc.
+
+- Examples of Standard library type traits
+  - is_integral
+  - is_void
+  - is_const
+  - is_polymorphic
+  - is_reference
+  - ...
+
+
 
